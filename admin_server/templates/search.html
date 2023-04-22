@@ -1,0 +1,40 @@
+{% if user %}
+<style>pre{white-space:wrap}</style>
+<div>Logged in as <strong>{{user.username}}</strong>(<a href="{{ url_for('.logout') }}">Log Out</a>) </div>
+{% endif %}
+<div>back to <a href="{{ url_for('.home') }}">home</a></div>
+
+
+<h2>search</h2>
+
+<form action="" method="post">
+    {% for data_category in data_categorys %}
+    <input type="radio" name="category" value={{data_category.category}}>{{data_category.category}}
+    <br>
+    {% endfor %}
+
+    timestamp_: <input type="text" name="timestamp_1" placeholder="timestamp_1">
+    ~
+    <input type="text" name="timestamp_2" placeholder="timestamp_2">
+    <button type="submit">submit</button>
+</form>
+
+{% if count_user!=NULL %}
+    検索条件
+    <br>
+    category : {{search_category}}
+    <br>
+    time : {{timestamp_1}} ~ {{timestamp_2}}
+    <br>
+    該当者数 : {{count_user}}
+{% endif %}
+
+{% if count_user %}
+    <form action="" method="post">
+        認可リクエストを作成する
+        <input type="hidden" name="search_category" value={{search_category}}>
+        <input type="hidden" name="timestamp_1" value={{timestamp_1}}>
+        <input type="hidden" name="timestamp_2" value={{timestamp_2}}>
+        <button type="submit" name="make_request" value="make_request"> submit </button>
+    </form>
+{% endif %}

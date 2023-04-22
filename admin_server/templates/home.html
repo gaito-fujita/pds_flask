@@ -1,0 +1,10 @@
+{% if user %}
+<style>pre{white-space:wrap}</style>
+<div>Logged in as <strong>{{user.username}}</strong>(<a href="{{ url_for('.logout') }}">Log Out</a>)  </div>
+{% endif %}
+
+<h2>home</h2>
+<div><a href="{{ url_for('.store') }}">データの保管</a></div>
+<div><a href="{{ url_for('.search') }}">データの検索</a></div>
+<div><a href="{{ url_for('.req_list') }}">届いたリクエスト</a></div>
+<div><a href="{{ url_for('.tokens') }}">所持しているトークンの確認</a></div>

@@ -1,0 +1,20 @@
+{% if user %}
+<style>pre{white-space:wrap}</style>
+<div>Logged in as <strong>{{user.username}}</strong>(<a href="{{ url_for('.logout') }}">Log Out</a>)  </div>
+{% endif %}
+<div>back to <a href="{{ url_for('.home') }}">home</a></div>
+
+
+<h2>req_list</h2>
+
+{% for i in range(num) %}
+    リクエスト送信者: {{search_users[i].username}}<br>
+    sql: {{data_groups[i].sql}}<br>
+    時刻: {{data_groups[i].created_at}}<br>
+    同意: {{consent_lists[i].consent}}<br>
+    <form action="" method="post">
+        <input type="hidden" name="consent_list_id" value={{consent_lists[i].id}}>
+        <button type="submit" name="consent" value=1> 同意 </button>
+        <button type="submit" name="consent" value=0> 不同意 </button>
+    </form>
+{% endfor %}

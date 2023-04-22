@@ -1,0 +1,26 @@
+{% if user %}
+<style>pre{white-space:wrap}</style>
+<div>Logged in as <strong>{{user.username}}</strong>(<a href="{{ url_for('.logout') }}">Log Out</a>) </div>
+{% endif %}
+<div>back to <a href="{{ url_for('.home') }}">home</a></div>
+
+
+<h2>tokens</h2>
+
+{% for i in range(num) %}
+    access_token : {{tokens[i]}}<br>
+    scope : {{scopes[i]}}<br>
+    <br>
+    <form action="" method="post">
+        <input type="hidden" name="access_token" value={{tokens[i]}}>
+        <button type="submit" name="num" value={{i}}> 使用</button>
+    </form>
+{% endfor %}
+
+{% if datas %}
+<h2>データ</h2>
+    {% for data in datas %}
+        {{data}}
+        <br>
+    {% endfor %}
+{% endif %}

@@ -1,0 +1,14 @@
+{% if user %}
+<style>pre{white-space:wrap}</style>
+<div>Logged in as <strong>{{user.username}}</strong>(<a href="{{ url_for('.logout') }}">Log Out</a>) </div>
+{% endif %}
+<div>back to <a href="{{ url_for('.home') }}">home</a></div>
+
+
+<h2>create_client</h2>
+
+該当者{{count}}人への認可リクエストが作成されました
+<br>
+条件 : {{sql}}
+<br>
+<a href="{{ url_for('.home') }}">homeへ戻る</a>

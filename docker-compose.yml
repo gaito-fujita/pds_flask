@@ -1,0 +1,74 @@
+version: '3'
+
+services:
+  authorization_server:
+    container_name: "authorization_server"
+    hostname: "authorization_server"
+    build:
+      context: "./authorization_server"
+      dockerfile: "Dockerfile"
+    tty: true
+    restart: always
+    ports:
+      - 5002:5000
+    volumes:
+      - ./authorization_server:/usr/src/app
+    environment:
+      - AUTHLIB_INSECURE_TRANSPORT=true
+      #本番環境では設定しないで下さい
+    networks:
+      - pds_2023
+  #sqliteはこの中で定義される
+
+  admin_server:
+    container_name: "admin_server"
+    hostname: "admin_server"
+    build:
+      context: "./admin_server"
+      dockerfile: "Dockerfile"
+    tty: true
+    restart: always
+    ports:
+      - 5001:5000
+    volumes:
+      - ./admin_server:/usr/src/app
+    environment:
+      DATABASE_URI: mysql+pymysql://root:password@mysql/mydatabase
+    depends_on:
+     - mysql
+      #本番環境では設定しないで下さい
+    networks:
+      - pds_2023
+
+  mysql:
+    container_name: "mysql"
+    hostname: "mysql"
+    build:
+      context: "./mysql"
+      dockerfile: "Dockerfile"
+    volumes:
+      - ./db/data:/var/lib/mysql
+      - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./db/sql:/docker-entrypoint-initdb.d
+      - ./db/log:/var/log/mysql
+    ports:
+     - 3305:3306
+    networks:
+      - pds_2023
+  
+  mongo:
+    container_name: "mongo"
+    hostname: "mongo"
+    build:
+      context: "./mongo"
+      dockerfile: "Dockerfile"
+    ports:
+     - 27016:27017
+    volumes:
+      - ./mongodb_data:/data/db
+    networks:
+      - pds_2023
+
+networks:
+  pds_2023:
+    driver: bridge
